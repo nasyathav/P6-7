@@ -3,6 +3,7 @@ package com.example.belajarsqlite;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,9 +14,10 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<Mhs> mhsList;
-    Mhs mm;
-    DbHelper db;
+    ArrayList<Mhs> mhsList ;
+    Mhs mm ;
+    DbHelper db ;
+    boolean isEdit ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +31,20 @@ public class MainActivity extends AppCompatActivity {
 
         mhsList = new ArrayList<>();
 
-        Intent intent_list = new Intent( MainActivity.this, ListMhsActivity.class);
+        isEdit = false;
+
+        Intent intent_main = getIntent();
+        if(intent_main.hasExtra("mhsData")){
+            mm = intent_main.getExtras().getParcelable("mhsData");
+            edNama.setText(mm.getNama());
+            edNim.setText(mm.getNim());
+            edNoHp.setText(mm.getNoHp());
+
+            isEdit = true;
+
+            btnSimpan.setBackgroundColor(Color.MAGENTA);
+            btnSimpan.setText("Edit");
+        }
 
         db = new DbHelper(getApplicationContext());
 
@@ -38,19 +53,28 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String isian_nama = edNama.getText().toString();
                 String isian_nim = edNim.getText().toString();
-                String isian_noHp = edNoHp.getText().toString();
+                String isian_nohp = edNoHp.getText().toString();
 
 
-                if (isian_nama.isEmpty() || isian_nim.isEmpty() || isian_noHp.isEmpty()){
+                if (isian_nama.isEmpty() || isian_nim.isEmpty() || isian_nohp.isEmpty()){
                     Toast.makeText(getApplicationContext(), "data masih kosong", Toast.LENGTH_SHORT).show();
                 }else {
-                    mm = new Mhs(-1, isian_nama, isian_nim, isian_noHp);
-                    boolean stts = db.simpan(mm);
+                    boolean stts = false ;
 
-                    if(stts){
+                    if(!isEdit){
+                        mm = new Mhs(-1, isian_nama, isian_nim, isian_nohp);
+                        stts = db.simpan(mm);
+
                         edNama.setText("");
                         edNim.setText("");
                         edNoHp.setText("");
+                    }else{
+                        mm = new Mhs(mm.getId(), isian_nama, isian_nim, isian_nohp);
+                        stts = db.ubah(mm);
+                    }
+
+                    if(stts){
+
                         Toast.makeText(getApplicationContext(),"Data berhasil disimpan", Toast.LENGTH_LONG).show();
                     }else{
                         Toast.makeText(getApplicationContext(),"Data gagal disimpan", Toast.LENGTH_LONG).show();
@@ -72,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 if (mhsList.isEmpty()){
                     Toast.makeText(getApplicationContext(), "Belum Ada Data", Toast.LENGTH_SHORT).show();
                 }else {
+                    Intent intent_list = new Intent( MainActivity.this, ListMhsActivity.class);
                     intent_list.putParcelableArrayListExtra("mhsList", mhsList);
                     startActivity(intent_list);
                 }

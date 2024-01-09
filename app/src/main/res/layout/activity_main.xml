@@ -45,8 +45,6 @@
         android:id="@+id/tvNama"
         android:layout_width="102dp"
         android:layout_height="30dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="40dp"
         android:text="NAMA"
         app:layout_constraintBottom_toTopOf="@+id/edNama"
         app:layout_constraintStart_toStartOf="@+id/edNama" />
@@ -67,11 +65,11 @@
         android:id="@+id/tvNoHp"
         android:layout_width="102dp"
         android:layout_height="30dp"
-        android:text="NoHp"
+        android:text="NOHP"
         app:layout_constraintBottom_toTopOf="@+id/edNoHp"
         app:layout_constraintStart_toStartOf="@+id/edNoHp"
         app:layout_constraintTop_toBottomOf="@+id/edNama"
-        app:layout_constraintVertical_bias="0.87" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/edNim"

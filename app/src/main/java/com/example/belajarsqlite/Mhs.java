@@ -27,7 +27,7 @@ public class Mhs implements Parcelable {
 
     public String getNama() {
 
-        return nama;
+        return this.nama;
     }
 
     public void setNama(String nama) {
@@ -37,7 +37,7 @@ public class Mhs implements Parcelable {
 
     public String getNim() {
 
-        return nim;
+        return this.nim;
     }
 
     public void setNim(String nim) {
@@ -47,7 +47,7 @@ public class Mhs implements Parcelable {
 
     public String getNoHp() {
 
-        return noHp;
+        return this.noHp;
     }
 
     public void setNohp(String noHp) {

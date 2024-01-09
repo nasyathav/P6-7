@@ -69,4 +69,29 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return mhsList;
     }
+
+    public boolean hapus(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int rowAffected = db.delete(TABLE_NAME, "id = ?", new String[]{String.valueOf(id)});
+
+        if(rowAffected > 0)
+            return true;
+        else
+            return false;
+    }
+
+    public boolean ubah(Mhs mm){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_NAMA, mm.getNama());
+        cv.put(COLUMN_NIM, mm.getNim());
+        cv.put(COLUMN_NOHP, mm.getNoHp());
+        int rowAffected = db.update(TABLE_NAME, cv, "id = ?", new String[]{String.valueOf(mm.getId())});
+
+        if(rowAffected > 0)
+            return true;
+        else
+            return false;
+    }
+
 }
